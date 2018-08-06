@@ -17,4 +17,5 @@
   ((:file "package")
    (:file "options")
    (:file "state")
+   (:file "cell")
    (:file "stage")))
