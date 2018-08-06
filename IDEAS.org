@@ -1,0 +1,57 @@
+* Map Generator Ideas
+
+** Problem
+
+I want to generate a simple 2-dimensional map for use in a game.
+
+It will consist of a rectangular grid of cells.
+
+Each cell has one or more properties, such as wall, floor, door, etc.
+
+There should be rooms (rectangular areas of walkable floor cells) and corridors (narrow paths that
+connect rooms together).
+
+It should be solvable - every point of the map should be reachable.
+
+It would be nice if we also had a graphical renderer which can run while we code, to see changes
+appear live.
+
+
+** Algorithm
+
+*** Make grid
+
+Make a grid. This will most likely be a 1-dimensional array, with instances of a =CELL= CLOS object at
+each index. Each cell will be initialized with the =:wall= property, which means the entire map starts
+out as solid and must be carved out to our specification in the subsequent steps.
+
+*** Carve rooms
+"Carve" out the rooms. This will modify certain cells by removing their =:wall= property, effectively
+making them floor cells. Each room is marked as a distinct "region", starting at 1 and incremented for
+each room.
+
+*** Carve corridors (part 1)
+
+Run a maze creation algorithm on the empty space between rooms. Repeat until the full map is filled
+with rooms and mazes. Each maze is also marked as a distinct "region", continuing with room regions
+integers by increment the number of the last room's region.
+
+*** Connect regions
+
+Locate cells which should be "connectors". A connector is a cell that has neighbors having 2
+different "region" integers. We only want to consider orthogonal opposite neighbors in the search.
+That is, if the left and right neighbor have different regions, OR the neighbors above and below
+have different regions. A connector is a potential location for a "junction" to be carved later.
+
+*** Carve junctions
+
+Turn some of the "connectors" into "junctions". This is a complicated step to those unfamiliar with
+basic graph theory, so I'll just explain this when we get to it. A "junction" is the cell between 2
+different regions. Some junctions become doors, some are just open doorways.
+
+*** Carve corridors (part 2)
+
+Look for dead-end cells from our maze algorithm in the 1st part of corridor carving. A dead-end can
+be spotted if only 1 of the 4 orthogonal neighbors are not walls. Remove the wall property from this
+cell, repeating the process until no dead-ends are present. This erosion of dead-ends leaves us with
+just the corridor between 2 regions, making it look much less like an actual maze.
