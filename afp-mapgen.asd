@@ -9,8 +9,12 @@
   :version "0.1.0"
   :encoding :utf-8
   :long-description #.(uiop:read-file-string (uiop/pathname:subpathname *load-pathname* "README.md"))
-  :depends-on (#:afp-utils)
+  :depends-on (#:afp-utils
+               #:cl-pcg)
   :pathname "src"
   :serial t
   :components
-  ((:file "package")))
+  ((:file "package")
+   (:file "options")
+   (:file "state")
+   (:file "stage")))

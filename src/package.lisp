@@ -2,4 +2,4 @@
 
 (defpackage #:afp-mapgen
   (:use #:cl)
-  (:export))
+  (:export #:make-stage))
