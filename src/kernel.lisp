@@ -2,23 +2,33 @@
 
 (defclass kernel-extent ()
   ((%min-x :reader min-x
+           :initarg :min-x
            :initform 0)
    (%min-y :reader min-y
+           :initarg :min-y
            :initform 0)
    (%max-x :reader max-x
+           :initarg :max-x
            :initform 1)
    (%max-y :reader max-y
+           :initarg :max-y
            :initform 1)))
 
 (defclass kernel ()
-  ((%stage :reader stage)
-   (%origin-x :reader origin-x)
-   (%origin-y :reader origin-y)
+  ((%stage :reader stage
+           :initarg :stage)
+   (%origin-x :reader origin-x
+              :initarg :origin-x)
+   (%origin-y :reader origin-y
+              :initarg :origin-y)
    (%extent :reader extent
+            :initarg :extent
             :initform (make-instance 'kernel-extent))
    (%selector :reader kernel-selector
+              :initarg :selector
               :initform :rectangle)
    (%mapper :reader kernel-mapper
+            :initarg :mapper
             :initform :default)))
 
 (defun make-kernel (selector mapper &rest extent-args)
@@ -29,7 +39,7 @@
                    :origin-y y
                    :selector selector
                    :mapper mapper
-                   :extent (apply #'make-instance 'extent extent-args))))
+                   :extent (apply #'make-instance 'kernel-extent extent-args))))
 
 (defun resolve-coords (kernel x y)
   (values (+ (origin-x kernel) x)
