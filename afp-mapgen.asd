@@ -20,5 +20,6 @@
    (:file "state")
    (:file "kernel")
    (:file "cell")
+   (:file "region")
    (:file "room")
    (:file "stage")))

@@ -6,7 +6,10 @@
    (%y :reader y
        :initarg :y)
    (%features :accessor features
-              :initform (list :wall))))
+              :initform (list :wall))
+   (%region :accessor region
+            :initform 0)))
+
 
 (defun cell-index (stage x y)
   (let ((width (width (options stage))))
