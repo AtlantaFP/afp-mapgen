@@ -10,6 +10,8 @@
    (%region :accessor region
             :initform 0)))
 
+(afp-utils:define-printer (cell stream :type t)
+  (format stream "~{~a~^, ~}" (features cell)))
 
 (defun cell-index (stage x y)
   (let ((width (width (options stage))))
@@ -40,3 +42,14 @@
 
 (defun feature-intersect (cell &rest features)
   (intersection features (features cell)))
+
+;;;
+
+(defun carve (cell feature &key (change-region-p t))
+  (add-feature cell feature)
+  (remove-feature cell :wall)
+  (when change-region-p
+    (add-cell-to-region cell)))
+
+(defun carved-p (cell)
+  (not (feature-present-p cell :wall)))
