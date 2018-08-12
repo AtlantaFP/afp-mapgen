@@ -1,11 +1,15 @@
 (in-package :afp-mapgen)
 
-(defstruct (options (:constructor %make-options)
-                    (:conc-name nil))
-  (width 49)
-  (height 49)
-  (seed (make-seed)))
-
+(defclass options ()
+  ((%width :reader width
+           :initarg :width
+           :initform 49)
+   (%height :reader height
+            :initarg :height
+            :initform 49)
+   (%seed :reader seed
+          :initarg :seed
+          :initform (make-seed))))
 
 (defun verify-options (options)
   (unless (and (oddp (width options))
@@ -18,6 +22,6 @@
     (error "Seed must be a positive integer.")))
 
 (defun make-options (&rest args)
-  (let ((options (apply #'%make-options args)))
+  (let ((options (apply #'make-instance 'options args)))
     (verify-options options)
     options))

@@ -1,7 +1,5 @@
 (in-package :afp-mapgen)
 
-(defvar *state*)
-
 (defclass stage ()
   ((options :reader options
             :initarg :options)
@@ -24,7 +22,7 @@
 
 (defun make-stage (&rest args)
   (let* ((options (apply #'make-options args))
-         (*state* (make-state (seed options)))
+         (*state* (make-instance 'state :seed (seed options)))
          (stage (make-instance 'stage :options options)))
     (make-grid stage)
     stage)

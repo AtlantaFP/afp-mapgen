@@ -1,9 +1,12 @@
 (in-package :afp-mapgen)
 
-(defstruct (cell (:constructor %make-cell))
-  x
-  y
-  (features (list :wall)))
+(defclass cell ()
+  ((%x :reader x
+       :initarg :x)
+   (%y :reader y
+       :initarg :y)
+   (%features :accessor features
+              :initform (list :wall))))
 
 (defun cell-index (stage x y)
   (let ((width (width (options stage))))
@@ -12,16 +15,16 @@
 (defun make-cell (stage x y)
   (let ((index (cell-index stage x y)))
     (setf (aref (grid stage) index)
-          (%make-cell :x x :y y))))
+          (make-instance 'cell :x x :y y))))
 
 (defun feature-present-p (cell feature)
-  (member feature (cell-features cell)))
+  (member feature (features cell)))
 
 (defun add-feature (cell feature)
-  (pushnew feature (cell-features cell)))
+  (pushnew feature (features cell)))
 
 (defun remove-feature (cell feature)
-  (afp-utils:deletef (cell-features cell) feature))
+  (afp-utils:deletef (features cell) feature))
 
 (defun feature-intersect (cell &rest features)
-  (intersection features (cell-features cell)))
+  (intersection features (features cell)))
