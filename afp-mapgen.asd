@@ -16,6 +16,7 @@
   :components
   ((:file "package")
    (:file "options")
+   (:file "random")
    (:file "state")
    (:file "cell")
    (:file "stage")))

@@ -6,13 +6,6 @@
   (height 49)
   (seed (make-seed)))
 
-(defun make-seed ()
-  (values
-   (parse-integer
-    (afp-utils:shuffle
-     (format nil "~d~d"
-             (get-universal-time)
-             (get-internal-real-time))))))
 
 (defun verify-options (options)
   (unless (and (oddp (width options))
