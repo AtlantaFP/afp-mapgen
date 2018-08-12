@@ -11,6 +11,7 @@
           :initarg :seed
           :initform (make-seed))))
 
+;; TODO: Reimplement with the CL condition system
 (defun verify-options (options)
   (unless (and (oddp (width options))
                (plusp (width options)))

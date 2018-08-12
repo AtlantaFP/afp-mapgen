@@ -18,5 +18,7 @@
    (:file "options")
    (:file "random")
    (:file "state")
+   (:file "kernel")
    (:file "cell")
+   (:file "room")
    (:file "stage")))

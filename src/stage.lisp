@@ -1,10 +1,10 @@
 (in-package :afp-mapgen)
 
 (defclass stage ()
-  ((options :reader options
-            :initarg :options)
-   (grid :reader grid
-         :initarg :grid)))
+  ((%options :reader options
+             :initarg :options)
+   (%grid :reader grid
+          :initarg :grid)))
 
 (afp-utils:define-printer (stage stream :type t)
   (let ((width (width (options stage)))
@@ -15,7 +15,7 @@
   (let* ((options (options stage))
          (width (width options))
          (height (height options)))
-    (setf (slot-value stage 'grid) (make-array (* width height)))
+    (setf (slot-value stage '%grid) (make-array (* width height)))
     (dotimes (x width)
       (dotimes (y height)
         (make-cell stage x y)))))
@@ -25,6 +25,7 @@
          (*state* (make-instance 'state :seed (seed options)))
          (stage (make-instance 'stage :options options)))
     (make-grid stage)
+    (carve-rooms stage)
     stage)
 
   #|
