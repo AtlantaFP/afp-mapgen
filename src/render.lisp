@@ -78,26 +78,23 @@
             (clim:draw-rectangle* pane
                                   (* x *cell-size*) (* y *cell-size*)
                                   (- (* (1+ x) *cell-size*) 1) (- (* (1+ y) *cell-size*) 1)
-                                  :ink (apply #'clim:make-rgb-color
-                                              (select-color :rect (get-cell stage x y))))))))))
+                                  :ink (apply #'clim:make-rgb-color (select-color :rect (get-cell stage x y))))))))))
 
 (defmethod clim:handle-repaint ((pane stage-display-pane) region)
   (declare (ignore region))
-  (with-slots (pixmap) pane
-    (unless pixmap
-      (setf (slot-value pane 'pixmap)
-            (draw-stage-to-pixmap (stage clim:*application-frame*) pane))
-      (clim:change-space-requirements pane :width (clim:pixmap-width pixmap)
-                                           :height (clim:pixmap-height pixmap)))
-    (clim:copy-from-pixmap pixmap
-                           0 0 (clim:pixmap-width pixmap) (clim:pixmap-height pixmap)
-                           pane 0 0)))
+  (unless (pixmap pane)
+    (setf (slot-value pane 'pixmap) (draw-stage-to-pixmap (stage clim:*application-frame*) pane))
+    (clim:change-space-requirements pane :width (clim:pixmap-width (pixmap pane))
+                                         :height (clim:pixmap-height (pixmap pane))))
+  (clim:copy-from-pixmap (pixmap pane)
+                         0 0 (clim:pixmap-width (pixmap pane)) (clim:pixmap-height (pixmap pane))
+                         pane 0 0))
 
 (clim:define-application-frame mcclim-mapgen-renderer ()
   ((attrs :initarg :attrs :reader attrs)
    (stage :reader stage))
   (:panes (toplevel (clim:make-pane 'stage-display-pane)))
-  (:layouts (default toplevel)))
+  (:layouts (default (clim:scrolling () toplevel))))
 
 
 (defmethod initialize-instance :after ((renderer mcclim-mapgen-renderer) &key attrs)
