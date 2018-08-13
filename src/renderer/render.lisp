@@ -1,4 +1,4 @@
-(in-package :afp-mapgen)
+(in-package :afp-mapgen-renderer)
 
 (defvar *stage*)
 (defvar *cell-size* 10)
