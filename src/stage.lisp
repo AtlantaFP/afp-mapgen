@@ -26,14 +26,4 @@
          (stage (make-instance 'stage :options options)))
     (make-grid stage)
     (carve-rooms stage)
-    stage)
-
-  #|
-  (make-grid)
-  (carve-rooms)
-  (carve-corridors)
-  (connect-regions)
-  (carve-junctions)
-  (erode-dead-ends) ;; carve corridors part 2
-  |#
-  )
+    stage))
