@@ -42,3 +42,11 @@
   (let ((options (apply #'make-instance 'options args)))
     (verify-options options)
     options))
+
+(defun stage-options->plist (stage)
+  (with-slots (%width %height %seed %density %room-extent) (options stage)
+    (list :width (width (options stage))
+          :height (height (options stage))
+          :seed (seed (options stage))
+          :density (density (options stage))
+          :room-extent (room-extent (options stage)))))
