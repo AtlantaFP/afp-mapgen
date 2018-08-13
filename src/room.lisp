@@ -25,6 +25,7 @@
            (k1 (funcall (layout :rectangle :max-x rx :max-y ry) stage px py))
            (k2 (funcall (layout :rectangle :max-x (1+ rx) :max-y (1+ ry)) stage px py)))
       (when (every #'null (kernel-map k2 #'carved-p))
+        (make-region)
         (kernel-map k1 (lambda (x) (carve x :room)))))))
 
 (defun carve-rooms (stage)
