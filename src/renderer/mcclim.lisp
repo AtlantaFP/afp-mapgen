@@ -1,4 +1,4 @@
-(in-package :afp-mapgen)
+(in-package :afp-mapgen-renderer)
 
 (defclass stage-display-pane (clim:basic-gadget)
   ((pixmap :reader pixmap :initform nil)))

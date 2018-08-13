@@ -1,9 +1,11 @@
-(in-package :afp-mapgen)
+(in-package :afp-mapgen-renderer)
 
 (defvar *stage*)
 (defvar *cell-size* 10)
 (defvar *room-color* '(0.1 0.5 1))
 (defvar *wall-color* '(0.2 0.2 0.2))
+
+(defgeneric render (method &rest attrs))
 
 (defmethod select-color ((object (eql :rect)) cell)
   (cond ((feature-present-p cell :room) *room-color*)
@@ -134,5 +136,3 @@
 
 
 |#
-
-

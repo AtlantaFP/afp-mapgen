@@ -1,4 +1,4 @@
-(in-package :afp-mapgen)
+(in-package :afp-mapgen-renderer)
 
 (defmethod render ((method (eql :repl)) &rest attrs)
   (let ((stage (apply #'make-stage attrs)))

@@ -1,4 +1,4 @@
-(in-package :afp-mapgen)
+(in-package :afp-mapgen-renderer)
 
 (defun draw-rect (cell)
   (sketch:with-pen (sketch:make-pen :fill (apply #'sketch:rgb (select-color :rect cell)))
