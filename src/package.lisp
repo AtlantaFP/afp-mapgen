@@ -12,5 +12,4 @@
            #:region
            #:features
            #:feature-present-p
-           #:feature-intersect
-           #:render))
+           #:feature-intersect))

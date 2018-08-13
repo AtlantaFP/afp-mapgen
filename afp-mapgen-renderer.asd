@@ -15,5 +15,10 @@
   :pathname "src"
   :serial t
   :components
-  ((:file "package")
-   (:file "render")))
+  ((:module "renderer"
+    :components
+    ((:file "package")
+     (:file "render")
+     (:file "repl")
+     (:file "sketch")
+     (:file "mcclim")))))
