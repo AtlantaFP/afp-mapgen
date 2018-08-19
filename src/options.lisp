@@ -18,7 +18,13 @@
                  :initform 11)
    (%wild-factor :reader wild-factor
                  :initarg :wild-factor
-                 :initform 0.25)))
+                 :initform 0.25)
+   (%door-rate :reader door-rate
+               :initarg :door-rate
+               :initform 0.5)
+   (%cycle-factor :reader cycle-factor
+                  :initarg :cycle-factor
+                  :initform 0.5)))
 
 ;; TODO: Reimplement with the CL condition system
 (defun verify-options (options)
@@ -41,7 +47,11 @@
                  (<= 3 room-extent max-extent))
       (error "Room extent must be an odd integer between 3 and ~d" max-extent)))
   (unless (<= 0.0 (wild-factor options) 1.0)
-    (error "Wild factor must be between 0.0 and 1.0.")))
+    (error "Wild factor must be between 0.0 and 1.0."))
+  (unless (<= 0.0 (door-rate options) 1.0)
+    (error "Door rate must be between 0.0 and 1.0."))
+  (unless (<= 0.0 (cycle-factor options) 1.0)
+    (error "Cycle factor must be between 0.0 and 1.0.")))
 
 (defun make-options (&rest args)
   (let ((options (apply #'make-instance 'options args)))

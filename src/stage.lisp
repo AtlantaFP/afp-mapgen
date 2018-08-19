@@ -28,4 +28,5 @@
     (carve-rooms stage)
     (carve-corridors stage)
     (connect-regions stage)
+    (carve-junctions stage)
     (values stage *state*)))

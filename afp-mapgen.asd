@@ -10,7 +10,8 @@
   :encoding :utf-8
   :long-description #.(uiop:read-file-string (uiop/pathname:subpathname *load-pathname* "README.md"))
   :depends-on (#:afp-utils
-               #:cl-pcg)
+               #:cl-pcg
+               #:graph)
   :pathname "src"
   :serial t
   :components
