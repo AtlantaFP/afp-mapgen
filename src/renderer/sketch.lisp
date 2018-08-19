@@ -7,12 +7,27 @@
                  (1- *cell-size*)
                  (1- *cell-size*))))
 
+(defun select-radius (cell)
+  (cond ((feature-present-p cell :connector)
+         1/5)
+        (t 1)))
+
+(defun draw-circle (cell)
+  (when (feature-present-p cell :connector)
+    (sketch:with-pen (sketch:make-pen :fill (apply #'sketch:rgb (select-color :circle cell)))
+      (sketch:circle (+ (* (x cell) *cell-size*)
+                        (floor *cell-size* 2))
+                     (+ (* (y cell) *cell-size*)
+                        (floor *cell-size* 2))
+                     (* *cell-size* (select-radius cell))))))
+
 (defun draw ()
   (sketch:background (apply #'sketch:rgb *wall-color*))
   (dotimes (x (width (options *stage*)))
     (dotimes (y (height (options *stage*)))
       (let ((cell (get-cell *stage* x y)))
-        (draw-rect cell)))))
+        (draw-rect cell)
+        (draw-circle cell)))))
 
 (sketch:defsketch afp-mapgen
     ((sketch:title "Example Map")

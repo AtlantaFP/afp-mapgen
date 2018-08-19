@@ -30,7 +30,7 @@ out as solid and must be carved out to our specification in the subsequent steps
 making them floor cells. Each room is marked as a distinct "region", starting at 1 and incremented for
 each room.
 
-*** Carve corridors (part 1)
+*** Carve corridors
 
 Run a maze creation algorithm on the empty space between rooms. Repeat until the full map is filled
 with rooms and mazes. Each maze is also marked as a distinct "region", continuing with room regions
@@ -49,7 +49,7 @@ Turn some of the "connectors" into "junctions". This is a complicated step to th
 basic graph theory, so I'll just explain this when we get to it. A "junction" is the cell between 2
 different regions. Some junctions become doors, some are just open doorways.
 
-*** Carve corridors (part 2)
+*** Un-carving corridor dead ends
 
 Look for dead-end cells from our maze algorithm in the 1st part of corridor carving. A dead-end can
 be spotted if only 1 of the 4 orthogonal neighbors are not walls. Remove the wall property from this

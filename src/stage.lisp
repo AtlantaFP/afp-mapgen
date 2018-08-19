@@ -27,4 +27,5 @@
     (make-grid stage)
     (carve-rooms stage)
     (carve-corridors stage)
+    (connect-regions stage)
     (values stage *state*)))

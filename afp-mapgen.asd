@@ -23,4 +23,5 @@
    (:file "region")
    (:file "room")
    (:file "corridor")
+   (:file "junction")
    (:file "stage")))

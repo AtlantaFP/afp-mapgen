@@ -8,6 +8,8 @@
                     :initform 0)
    (%regions :reader regions
              :initform (afp-utils:dict #'eql))
+   (%connections :reader connections
+                 :initform (afp-utils:dict #'equal))
    (%dead-ends :accessor dead-ends
                :initform nil)))
 
