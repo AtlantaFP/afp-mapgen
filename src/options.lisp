@@ -39,7 +39,7 @@
   (unless (<= 0.1 (density options) 1.0)
     (error "Density must be between 0.1 and 1.0."))
   (let ((room-extent (room-extent options))
-        (max-extent (- (ceiling (max (/ (width options) 2)
+        (max-extent (- (ceiling (min (/ (width options) 2)
                                      (/ (height options) 2)))
                        2)))
     (unless (and (integerp room-extent)
