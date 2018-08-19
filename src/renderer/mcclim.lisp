@@ -83,6 +83,16 @@
                                       :orientation :horizontal
                                       :decimal-places 3
                                       :show-value-p t)
+          (apply-button :push-button
+                        :label "Apply new settings"
+                        :activate-callback
+                        (lambda (button)
+                          (declare (ignore button))
+                          (let* ((attrs (attrs clim:*application-frame*))
+                                 (stage (apply #'make-stage attrs))
+                                 (top (clim:find-pane-named clim:*application-frame* 'toplevel)))
+                            (setf (stage top) stage)
+                            (redraw-pixmap top))))
           (cell-width-slider :slider :value *cell-size*
                                      :orientation :horizontal
                                      :show-value-p t
@@ -128,17 +138,11 @@
                                                   (declare (ignore button))
                                                   (setf (clim:gadget-value stage-seed :invoke-callback nil)
                                                         (write-to-string (make-seed))))))
-                              (clim:make-pane :push-button
-                                              :label "Apply new settings"
-                                              :activate-callback
-                                              (lambda (button)
-                                                (declare (ignore button))
-                                                (let* ((attrs (attrs clim:*application-frame*))
-                                                       (stage (apply #'make-stage attrs))
-                                                       (top (clim:find-pane-named clim:*application-frame* 'toplevel)))
-                                                  (setf (stage top) stage)
-                                                  (redraw-pixmap top))))))))))
+                              apply-button))))))
 
+(defun try-parse-integer (string)
+  (multiple-value-bind (num idx) (parse-integer string :junk-allowed t)
+    (values (or num 0) (= idx (length string)))))
 
 (defmethod clim:value-changed-callback :after (gadget (frame mcclim-mapgen-renderer) id value)
   (declare (ignore gadget id value))
@@ -166,7 +170,11 @@
                                      parsed-full-height (oddp height)
                                      parsed-full-seed
                                      parsed-full-room-extent (oddp room-extent) (<= 3 room-extent max-extent))))
-      (when valid-p (setf (attrs frame) attrs)))))
+      (if valid-p
+          (progn
+            (clim:activate-gadget (clim:find-pane-named frame 'apply-button))
+            (setf (attrs frame) attrs))
+          (clim:deactivate-gadget (clim:find-pane-named frame 'apply-button))))))
 
 (defun new-cell-size (slider value)
   (declare (ignore slider))
@@ -197,10 +205,6 @@
 (define-mcclim-mapgen-renderer-command (com-redraw-pixmap :name t :menu t)
     ()
   (redraw-pixmap (clim:find-pane-named clim:*application-frame* 'toplevel)))
-
-(defun try-parse-integer (string)
-  (multiple-value-bind (num idx) (parse-integer string :junk-allowed t)
-    (values (or num 0) (= idx (length string)))))
 
 (defun clim-label (text)
   (clim:make-pane :label :label text))
