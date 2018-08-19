@@ -15,7 +15,10 @@
              :initform 0.5)
    (%room-extent :reader room-extent
                  :initarg :room-extent
-                 :initform 11)))
+                 :initform 11)
+   (%wild-factor :reader wild-factor
+                 :initarg :wild-factor
+                 :initform 0.25)))
 
 ;; TODO: Reimplement with the CL condition system
 (defun verify-options (options)
@@ -36,7 +39,9 @@
     (unless (and (integerp room-extent)
                  (oddp room-extent)
                  (<= 3 room-extent max-extent))
-      (error "Room extent must be an odd integer between 3 and ~d" max-extent))))
+      (error "Room extent must be an odd integer between 3 and ~d" max-extent)))
+  (unless (<= 0.0 (wild-factor options) 1.0)
+    (error "Wild factor must be between 0.0 and 1.0.")))
 
 (defun make-options (&rest args)
   (let ((options (apply #'make-instance 'options args)))

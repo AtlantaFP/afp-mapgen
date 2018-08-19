@@ -31,7 +31,7 @@
             :initarg :mapper
             :initform :default)))
 
-(defun make-kernel (selector mapper &rest extent-args)
+(defun make-kernel-factory (selector mapper &rest extent-args)
   (lambda (stage x y)
     (make-instance 'kernel
                    :stage stage
@@ -54,14 +54,13 @@
 (defun kernel-map (kernel func)
   (mapper (kernel-mapper kernel) kernel func))
 
-(defmacro kernel-map/short (kernel func reduce)
-  (afp-utils:with-unique-names (block-name cell)
-    `(block ,block-name
-       (,reduce
-        (kernel-map ,kernel
-                    (lambda (,cell)
-                      (when (funcall ,func ,cell)
-                        (return-from ,block-name))))))))
+(defun kernel-detect (kernel func)
+  (block nil
+    (kernel-map kernel
+                (lambda (cell)
+                  (when (funcall func cell)
+                    (return t))))
+    nil))
 
 (defun cell->kernel (stage cell layout)
   (funcall layout stage (x cell) (y cell)))
@@ -151,19 +150,19 @@
 ;;; Layouts
 
 (defmethod layout ((shape (eql :horizontal)) &rest extent-args)
-  (apply #'make-kernel :horizontal :horizontal extent-args))
+  (apply #'make-kernel-factory :horizontal :horizontal extent-args))
 
 (defmethod layout ((shape (eql :vertical)) &rest extent-args)
-  (apply #'make-kernel :vertical :vertical extent-args))
+  (apply #'make-kernel-factory :vertical :vertical extent-args))
 
 (defmethod layout ((shape (eql :orthogonal)) &rest extent-args)
-  (apply #'make-kernel :orthogonal :orthogonal extent-args))
+  (apply #'make-kernel-factory :orthogonal :orthogonal extent-args))
 
 (defmethod layout ((shape (eql :rectangle)) &rest extent-args)
-  (apply #'make-kernel :rectangle :default extent-args))
+  (apply #'make-kernel-factory :rectangle :default extent-args))
 
 (defmethod layout ((shape (eql :ellipse)) &rest extent-args)
-  (apply #'make-kernel :ellipse :default extent-args))
+  (apply #'make-kernel-factory :ellipse :default extent-args))
 
 ;;;
 

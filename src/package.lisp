@@ -4,6 +4,7 @@
   (:use #:cl)
   (:export #:make-stage
            #:options
+           #:stage-options->plist
            #:width
            #:height
            #:seed

@@ -26,4 +26,5 @@
          (stage (make-instance 'stage :options options)))
     (make-grid stage)
     (carve-rooms stage)
-    stage))
+    (carve-corridors stage)
+    (values stage *state*)))
