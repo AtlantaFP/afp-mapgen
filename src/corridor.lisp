@@ -29,18 +29,18 @@
         (push origin (dead-ends *state*))
         (delete origin cells :count 1)))))
 
-;; TODO: Write tail-recursive with LABELS
 (defun carve-corridor-cell (kernel)
   (let ((origin (select kernel 0 0)))
     (make-region)
     (carve origin :corridor)
-    (loop :with stage = (stage kernel)
-          :with layout = (layout :orthogonal :max-x 2 :max-y 2)
-          :with cells = (list origin)
-          :while cells
-          :for cell = (choose-corridor-cell stage cells)
-          :for kernel = (cell->kernel stage cell layout)
-          :do (setf cells (carve-direction kernel cells)))))
+    (let ((stage (stage kernel))
+          (layout (layout :orthogonal :max-x 2 :max-y 2)))
+      (labels ((recursor (cells)
+                 (when cells
+                   (let* ((cell (choose-corridor-cell stage cells))
+                          (kernel (cell->kernel stage cell layout)))
+                     (recursor (carve-direction kernel cells))))))
+        (recursor (list origin))))))
 
 (defun carve-corridors (stage)
   (convolve stage (layout :rectangle) #'filter-carvable #'carve-corridor-cell))

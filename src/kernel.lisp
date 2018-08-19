@@ -87,7 +87,6 @@
   (or (selector :horizontal x y extent)
       (selector :vertical x y extent)))
 
-;; TODO: Simplify rectangle selector
 (defmethod selector ((shape (eql :rectangle)) x y extent)
   (and (>= x (- (max-x extent)))
        (>= y (- (max-y extent)))
