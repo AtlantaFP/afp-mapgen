@@ -29,4 +29,5 @@
     (carve-corridors stage)
     (connect-regions stage)
     (carve-junctions stage)
+    (erode-dead-ends stage)
     (values stage *state*)))

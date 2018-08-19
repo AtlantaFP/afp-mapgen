@@ -23,6 +23,6 @@
    (:file "cell")
    (:file "region")
    (:file "room")
-   (:file "corridor")
    (:file "junction")
+   (:file "corridor")
    (:file "stage")))

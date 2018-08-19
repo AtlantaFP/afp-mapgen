@@ -53,3 +53,8 @@
 
 (defun carved-p (cell)
   (not (feature-present-p cell :wall)))
+
+(defun uncarve (cell)
+  (alexandria:deletef (afp-utils:href (regions *state*) (region cell)) cell)
+  (setf (region cell) 0
+        (features cell) '(:wall)))

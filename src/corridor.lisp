@@ -44,3 +44,18 @@
 
 (defun carve-corridors (stage)
   (convolve stage (layout :rectangle) #'filter-carvable #'carve-corridor-cell))
+
+(defun filter-dead-end (kernel)
+  (let ((dirs (count nil (kernel-map kernel #'carved-p))))
+    (and (carved-p (select kernel 0 0))
+         (> dirs 2))))
+
+(defun erode-dead-end (kernel)
+  (uncarve (select kernel 0 0))
+  (remove-connectors kernel)
+  (kernel-detect kernel (lambda (x) (when (carved-p x) x))))
+
+(defun erode-dead-ends (stage)
+  (process stage nil #'filter-dead-end #'erode-dead-end
+           :items (dead-ends *state*)
+           :generator (lambda (x) (cell->kernel stage x (layout :orthogonal)))))

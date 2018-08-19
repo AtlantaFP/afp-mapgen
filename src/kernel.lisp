@@ -58,8 +58,8 @@
   (block nil
     (kernel-map kernel
                 (lambda (cell)
-                  (when (funcall func cell)
-                    (return t))))
+                  (afp-utils:when-let ((value (funcall func cell)))
+                    (return value))))
     nil))
 
 (defun cell->kernel (stage cell layout)

@@ -42,16 +42,14 @@
       :door
       :junction))
 
-(defun remove-adjacent-junction-connectors (kernel)
-  (kernel-map kernel (lambda (x)
-                       (when (feature-present-p x :connector)
-                         (remove-feature x :connector)))))
+(defun remove-connectors (kernel)
+  (kernel-map kernel (lambda (x) (remove-feature x :connector))))
 
 (defun maybe-make-junction (stage cell)
   (let ((kernel (cell->kernel stage cell (layout :orthogonal))))
     (unless (adjacent-junction-p kernel)
       (carve cell (generate-junction-feature stage))
-      (remove-adjacent-junction-connectors kernel)
+      (remove-connectors kernel)
       (cond ((cell-regions-distinct-p (select kernel 0 1) (select kernel 0 -1))
              (add-feature cell :door-horizontal))
             ((cell-regions-distinct-p (select kernel 1 0) (select kernel -1 0))
