@@ -3,6 +3,7 @@
 (defpackage #:afp-mapgen
   (:use #:cl)
   (:export #:make-stage
+           #:make-seed
            #:options
            #:stage-options->plist
            #:width
