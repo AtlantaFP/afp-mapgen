@@ -57,6 +57,8 @@
                            0 0 (clim:pixmap-width pixmap) (clim:pixmap-height pixmap)
                            pane 0 0)))
 
+
+
 (clim:define-application-frame mcclim-mapgen-renderer ()
   ((attrs :initarg :attrs :accessor attrs))
   (:panes (toplevel (clim:make-pane 'stage-display-pane :cell-size *cell-size* :draw-connectors-p t))
@@ -108,9 +110,11 @@
                                     (1/8 (clim-label "5px"))
                                     (3/4 cell-width-slider)
                                     (1/8 (clim-label "20px"))))
-                                (clim:vertically (:align-x :center)
-                                  (clim-label "Draw Connectors")
-                                  draw-connectors-checkbox))))
+                                (clim:vertically ()
+                                  (clim:horizontally (:align-x :center)
+                                    draw-connectors-checkbox
+                                    (clim-label "Draw Connectors"))
+                                  clim:+fill+))))
                        (1/2 (clim:vertically ()
                               (clim:tabling ()
                                 (list
@@ -143,9 +147,10 @@
                                                    :activate-callback
                                                    (lambda (button)
                                                      (declare (ignore button))
-                                                     (setf (clim:gadget-value stage-seed :invoke-callback nil)
+                                                     (setf (clim:gadget-value stage-seed :invoke-callback t)
                                                            (write-to-string (make-seed))))))))
-                              apply-button))))))
+                              apply-button
+                              clim:+fill+))))))
 
 (defun render-map-from-attrs ()
   (let* ((attrs (attrs clim:*application-frame*))
@@ -204,9 +209,6 @@
     (setf (draw-connectors-p top) value)
     (redraw-pixmap top)))
 
-(defun next-lowest-odd (num)
-  (+ (* 2 (truncate (- num 1) 2)) 1))
-
 (defun update-stage (frame)
   (let ((stage (apply #'make-stage (attrs frame)))
         (top (clim:find-pane-named frame 'toplevel)))
@@ -229,8 +231,9 @@
                  (when (pixmap (clim:find-pane-named frame 'toplevel))
                    (clim:deallocate-pixmap (pixmap (clim:find-pane-named frame 'toplevel))))
                  (clim:disown-frame fm frame))))
-      (clim-sys:make-process #'run)
-      frame)))
+      (values
+       (clim-sys:make-process #'run)
+       frame))))
 
 #|
 (ql:quickload :clim-listener)
