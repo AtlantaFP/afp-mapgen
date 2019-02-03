@@ -4,8 +4,8 @@
   (sketch:with-pen (sketch:make-pen :fill (apply #'sketch:rgb (select-color :rect cell)))
     (sketch:rect (* (x cell) *cell-size*)
                  (* (y cell) *cell-size*)
-                 (1- *cell-size*)
-                 (1- *cell-size*))))
+                 (- *cell-size* 4)
+                 (- *cell-size* 4))))
 
 (defun select-radius (cell)
   (cond ((feature-present-p cell :connector)
