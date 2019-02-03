@@ -3,7 +3,7 @@
 (defclass stage-display-pane (clim:basic-gadget)
   ((pixmap :accessor pixmap :initform nil)
    (cell-size :accessor cell-size :initform *cell-size* :initarg :cell-size)
-   (draw-connectors-p :accessor draw-connectors-p :initform nil)
+   (draw-connectors-p :accessor draw-connectors-p :initform nil :initarg :draw-connectors-p)
    (stage :accessor stage :initarg :stage :initform nil))
   (:default-initargs :background (apply #'clim:make-rgb-color *wall-color*)))
 
